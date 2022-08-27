@@ -183,3 +183,279 @@ sources:
         freshness:
           warn_after: {count: 24, period: hour}
           error_after: {count: 48, period: hour}
+      - name: Application_People
+        description: People known to the application (staff, customer contacts, supplier contacts)
+        columns:
+          - name: PersonID
+            description: Numeric ID used for reference to a person within the database
+            tests:
+              - unique
+              - not_null
+          - name: FullName
+            description: Full name for this person
+          - name: PreferredName
+            description: Name that this person prefers to be called
+          - name: SearchName
+            description: Name to build full text search on (computed column)
+          - name: IsPermittedToLogon
+            description: Is this person permitted to log on?
+          - name: LogonName
+            description: Person's system logon name
+          - name: IsExternalLogonProvider
+            description: Is logon token provided by an external system?
+          - name: HashedPassword
+            description: Hash of password for users without external logon tokens
+          - name: IsSystemUser
+            description: Is the currently permitted to make online access?
+          - name: IsEmployee
+            description: Is this person an employee?
+          - name: IsSalesperson
+            description: Is this person a staff salesperson?
+          - name: UserPreferences
+            description: User preferences related to the website (holds JSON data)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: EmailAddress
+            description: Email address for this person
+          - name: Photo
+            description: Photo of this person
+          - name: CustomFields
+            description: Custom fields for employees and salespeople
+          - name: OtherLanguages
+            description: Other languages spoken (computed column from custom fields)
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_People_Archive
+        description: Historical data of people known to the application (staff, customer contacts, supplier contacts)
+        columns:
+          - name: PersonID
+            description: Numeric ID used for reference to a person within the database
+            tests:
+              - not_null
+          - name: FullName
+            description: Full name for this person
+          - name: PreferredName
+            description: Name that this person prefers to be called
+          - name: SearchName
+            description: Name to build full text search on (computed column)
+          - name: IsPermittedToLogon
+            description: Is this person permitted to log on?
+          - name: LogonName
+            description: Person's system logon name
+          - name: IsExternalLogonProvider
+            description: Is logon token provided by an external system?
+          - name: HashedPassword
+            description: Hash of password for users without external logon tokens
+          - name: IsSystemUser
+            description: Is the currently permitted to make online access?
+          - name: IsEmployee
+            description: Is this person an employee?
+          - name: IsSalesperson
+            description: Is this person a staff salesperson?
+          - name: UserPreferences
+            description: User preferences related to the website (holds JSON data)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: EmailAddress
+            description: Email address for this person
+          - name: Photo
+            description: Photo of this person
+          - name: CustomFields
+            description: Custom fields for employees and salespeople
+          - name: OtherLanguages
+            description: Other languages spoken (computed column from custom fields)
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_Customers
+        description: Main entity tables for customers (organizations or individuals)
+        columns:
+          - name: CustomerID
+            description: Numeric ID used for reference to a customer within the database
+            tests:
+              - unique
+              - not_null
+          - name: CustomerName
+            description: Customer's full name (usually a trading name)
+          - name: BillToCustomerID
+            description: Customer that this is billed to (usually the same customer but can be another parent company)
+          - name: CustomerCategoryID
+            description: Customer's category
+          - name: BuyingGroupID
+            description: Customer's buying group (optional)
+          - name: PrimaryContactPersonID
+            description: Primary contact
+          - name: AlternateContactPersonID
+            description: Alternate contact
+          - name: DeliveryMethodID
+            description: Standard delivery method for stock items sent to this customer
+          - name: DeliveryCityID
+            description: ID of the delivery city for this address
+          - name: PostalCityID
+            description: ID of the postal city for this address
+          - name: CreditLimit
+            description: Credit limit for this customer (NULL if unlimited)
+          - name: AccountOpenedDate
+            description: Date this customer account was opened
+          - name: StandardDiscountPercentage
+            description: Standard discount offered to this customer
+          - name: IsStatementSent
+            description: Is a statement sent to this customer? (Or do they just pay on each invoice?)
+          - name: IsOnCreditHold
+            description: Is this customer on credit hold? (Prevents further deliveries to this customer)
+          - name: PaymentDays
+            description: Number of days for payment of an invoice (ie payment terms)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: DeliveryRun
+            description: Normal delivery run for this customer
+          - name: RunPosition
+            description: Normal position in the delivery run for this customer
+          - name: WebsiteURL
+            description: URL for the website for this customer
+          - name: DeliveryAddressLine1
+            description: First delivery address line for the customer
+          - name: DeliveryAddressLine2
+            description: Second delivery address line for the customer
+          - name: DeliveryPostalCode
+            description: Delivery postal code for the customer
+          - name: DeliveryLocation
+            description: Geographic location for the customer's office/warehouse
+          - name: PostalAddressLine1
+            description: First postal address line for the customer
+          - name: PostalAddressLine2
+            description: Second postal address line for the customer
+          - name: PostalPostalCode
+            description: Postal code for the customer when sending by mail
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_Customers_Archive
+        description: Historical data of customers (organizations or individuals)
+        columns:
+          - name: CustomerID
+            description: Numeric ID used for reference to a customer within the database
+            tests:
+              - not_null
+          - name: CustomerName
+            description: Customer's full name (usually a trading name)
+          - name: BillToCustomerID
+            description: Customer that this is billed to (usually the same customer but can be another parent company)
+          - name: CustomerCategoryID
+            description: Customer's category
+          - name: BuyingGroupID
+            description: Customer's buying group (optional)
+          - name: PrimaryContactPersonID
+            description: Primary contact
+          - name: AlternateContactPersonID
+            description: Alternate contact
+          - name: DeliveryMethodID
+            description: Standard delivery method for stock items sent to this customer
+          - name: DeliveryCityID
+            description: ID of the delivery city for this address
+          - name: PostalCityID
+            description: ID of the postal city for this address
+          - name: CreditLimit
+            description: Credit limit for this customer (NULL if unlimited)
+          - name: AccountOpenedDate
+            description: Date this customer account was opened
+          - name: StandardDiscountPercentage
+            description: Standard discount offered to this customer
+          - name: IsStatementSent
+            description: Is a statement sent to this customer? (Or do they just pay on each invoice?)
+          - name: IsOnCreditHold
+            description: Is this customer on credit hold? (Prevents further deliveries to this customer)
+          - name: PaymentDays
+            description: Number of days for payment of an invoice (ie payment terms)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: DeliveryRun
+            description: Normal delivery run for this customer
+          - name: RunPosition
+            description: Normal position in the delivery run for this customer
+          - name: WebsiteURL
+            description: URL for the website for this customer
+          - name: DeliveryAddressLine1
+            description: First delivery address line for the customer
+          - name: DeliveryAddressLine2
+            description: Second delivery address line for the customer
+          - name: DeliveryPostalCode
+            description: Delivery postal code for the customer
+          - name: DeliveryLocation
+            description: Geographic location for the customer's office/warehouse
+          - name: PostalAddressLine1
+            description: First postal address line for the customer
+          - name: PostalAddressLine2
+            description: Second postal address line for the customer
+          - name: PostalPostalCode
+            description: Postal code for the customer when sending by mail
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_CustomerCategories
+        description: Categories for customers (ie restaurants, cafes, supermarkets, etc.)
+        columns:
+          - name: CustomerCategoryID
+            description: Numeric ID used for reference to a customer category within the database
+            tests:
+              - unique
+              - not_null
+          - name: CustomerCategoryName
+            description: Full name of the category that customers can be assigned to
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_CustomerCategories_Archive
+        description: Historical data of categories for customers (ie restaurants, cafes, supermarkets, etc.)
+        columns:
+          - name: CustomerCategoryID
+            description: Numeric ID used for reference to a customer category within the database
+            tests:
+              - not_null
+          - name: CustomerCategoryName
+            description: Full name of the category that customers can be assigned to
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_BuyingGroups
+        description: Customer organizations can be part of groups that exert greater buying power
+        columns:
+          - name: BuyingGroupID
+            description: Numeric ID used for reference to a buying group within the database
+            tests:
+              - unique
+              - not_null
+          - name: BuyingGroupName
+            description: Full name of a buying group that customers can be members of
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_BuyingGroups_Archive
+        description: Historical data of customer organizations can be part of groups that exert greater buying power
+        columns:
+          - name: BuyingGroupID
+            description: Numeric ID used for reference to a buying group within the database
+            tests:
+              - not_null
+          - name: BuyingGroupName
+            description: Full name of a buying group that customers can be members of
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
