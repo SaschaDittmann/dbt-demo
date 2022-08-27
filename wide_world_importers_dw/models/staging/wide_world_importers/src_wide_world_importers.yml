@@ -824,3 +824,31 @@ sources:
         freshness:
           warn_after: {count: 24, period: hour}
           error_after: {count: 48, period: hour}
+      - name: Warehouse_StockItemTransactions
+        description: Transactions covering all movements of all stock items
+        columns:
+          - name: StockItemTransactionID
+            description: Numeric ID used to refer to a stock item transaction within the database
+            tests:
+              - unique
+              - not_null
+          - name: StockItemID
+            description: StockItem for this transaction
+          - name: TransactionTypeID
+            description: Type of transaction
+          - name: CustomerID
+            description: Customer for this transaction (if applicable)
+          - name: InvoiceID
+            description: ID of an invoice (for transactions associated with an invoice)
+          - name: SupplierID
+            description: Supplier for this stock transaction (if applicable)
+          - name: PurchaseOrderID
+            description: ID of an purchase order (for transactions associated with a purchase order)
+          - name: TransactionOccurredWhen
+            description: Date and time when the transaction occurred
+          - name: Quantity
+            description: Quantity of stock movement (positive is incoming stock, negative is outgoing)
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
