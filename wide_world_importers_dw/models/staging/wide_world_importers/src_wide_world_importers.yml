@@ -647,3 +647,153 @@ sources:
         freshness:
           warn_after: {count: 24, period: hour}
           error_after: {count: 48, period: hour}
+      - name: Purchasing_Suppliers
+        description: Main entity table for suppliers (organizations)
+        columns:
+          - name: SupplierID
+            description: Numeric ID used for reference to a supplier within the database
+            tests:
+              - unique
+              - not_null
+          - name: SupplierName
+            description: Supplier's full name (usually a trading name)
+          - name: SupplierCategoryID
+            description: Supplier's category
+          - name: PrimaryContactPersonID
+            description: Primary contact
+          - name: AlternateContactPersonID
+            description: Alternate contact
+          - name: DeliveryMethodID
+            description: Standard delivery method for stock items received from this supplier
+          - name: DeliveryCityID
+            description: ID of the delivery city for this address
+          - name: PostalCityID
+            description: ID of the mailing city for this address
+          - name: SupplierReference
+            description: Supplier reference for our organization (might be our account number at the supplier)
+          - name: BankAccountName
+            description: Supplier's bank account name (ie name on the account)
+          - name: BankAccountBranch
+            description: Supplier's bank branch
+          - name: BankAccountCode
+            description: Supplier's bank account code (usually a numeric reference for the bank branch)
+          - name: BankAccountNumber
+            description: Supplier''s bank account number
+          - name: BankInternationalCode
+            description: Supplier's bank's international code (such as a SWIFT code)
+          - name: PaymentDays
+            description: Number of days for payment of an invoice (ie payment terms)
+          - name: InternalComments
+            description: Internal comments (not exposed outside organization)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: WebsiteURL
+            description: URL for the website for this supplier
+          - name: DeliveryAddressLine1
+            description: First delivery address line for the supplier
+          - name: DeliveryAddressLine2
+            description: Second delivery address line for the supplier
+          - name: DeliveryPostalCode
+            description: Delivery postal code for the supplier
+          - name: DeliveryLocation
+            description: Geographic location for the supplier's office/warehouse
+          - name: PostalAddressLine1
+            description: First postal address line for the supplier
+          - name: PostalAddressLine2
+            description: Second postal address line for the supplier
+          - name: PostalPostalCode
+            description: Postal code for the supplier when sending by mail
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Purchasing_Suppliers_Archive
+        description: Historical data of suppliers (organizations)
+        columns:
+          - name: SupplierID
+            description: Numeric ID used for reference to a supplier within the database
+            tests:
+              - not_null
+          - name: SupplierName
+            description: Supplier's full name (usually a trading name)
+          - name: SupplierCategoryID
+            description: Supplier's category
+          - name: PrimaryContactPersonID
+            description: Primary contact
+          - name: AlternateContactPersonID
+            description: Alternate contact
+          - name: DeliveryMethodID
+            description: Standard delivery method for stock items received from this supplier
+          - name: DeliveryCityID
+            description: ID of the delivery city for this address
+          - name: PostalCityID
+            description: ID of the mailing city for this address
+          - name: SupplierReference
+            description: Supplier reference for our organization (might be our account number at the supplier)
+          - name: BankAccountName
+            description: Supplier's bank account name (ie name on the account)
+          - name: BankAccountBranch
+            description: Supplier's bank branch
+          - name: BankAccountCode
+            description: Supplier's bank account code (usually a numeric reference for the bank branch)
+          - name: BankAccountNumber
+            description: Supplier''s bank account number
+          - name: BankInternationalCode
+            description: Supplier's bank's international code (such as a SWIFT code)
+          - name: PaymentDays
+            description: Number of days for payment of an invoice (ie payment terms)
+          - name: InternalComments
+            description: Internal comments (not exposed outside organization)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: WebsiteURL
+            description: URL for the website for this supplier
+          - name: DeliveryAddressLine1
+            description: First delivery address line for the supplier
+          - name: DeliveryAddressLine2
+            description: Second delivery address line for the supplier
+          - name: DeliveryPostalCode
+            description: Delivery postal code for the supplier
+          - name: DeliveryLocation
+            description: Geographic location for the supplier's office/warehouse
+          - name: PostalAddressLine1
+            description: First postal address line for the supplier
+          - name: PostalAddressLine2
+            description: Second postal address line for the supplier
+          - name: PostalPostalCode
+            description: Postal code for the supplier when sending by mail
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Purchasing_SupplierCategories
+        description: Categories for suppliers (ie novelties, toys, clothing, packaging, etc.)
+        columns:
+          - name: SupplierCategoryID
+            description: Numeric ID used for reference to a supplier category within the database
+            tests:
+              - unique
+              - not_null
+          - name: SupplierCategoryName
+            description: Full name of the category that suppliers can be assigned to
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Purchasing_SupplierCategories_Archive
+        description: Historical data of categories for suppliers (ie novelties, toys, clothing, packaging, etc.)
+        columns:
+          - name: SupplierCategoryID
+            description: Numeric ID used for reference to a supplier category within the database
+            tests:
+              - not_null
+          - name: SupplierCategoryName
+            description: Full name of the category that suppliers can be assigned to
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
