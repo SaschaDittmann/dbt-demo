@@ -797,3 +797,30 @@ sources:
         freshness:
           warn_after: {count: 24, period: hour}
           error_after: {count: 48, period: hour}
+      - name: Application_TransactionTypes
+        description: Types of customer, supplier, or stock transactions (ie invoice, credit note, etc.)
+        columns:
+          - name: TransactionTypeID
+            description: Numeric ID used for reference to a transaction type within the database
+            tests:
+              - unique
+              - not_null
+          - name: TransactionTypeName
+            description: Full name of the transaction type
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_TransactionTypes_Archive
+        description: Historical data of types of customer, supplier, or stock transactions (ie invoice, credit note, etc.)
+        columns:
+          - name: TransactionTypeID
+            description: Numeric ID used for reference to a transaction type within the database
+            tests:
+              - not_null
+          - name: TransactionTypeName
+            description: Full name of the transaction type
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
