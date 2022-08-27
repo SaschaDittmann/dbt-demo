@@ -1,0 +1,185 @@
+version: 2
+
+sources:
+  - name: wide_world_importers
+    description: A clone of a Postgres application database.
+    database: smart-analytics-demos
+    schema: wide_world_importers
+    tables:
+      - name: Application_Cities
+        description: Cities that are part of any address (including geographic location)
+        columns:
+          - name: CityID
+            description: Numeric ID used for reference to a city within the database
+            tests:
+              - unique
+              - not_null
+          - name: CityName
+            description: Formal name of the city
+            tests:
+              - not_null
+          - name: StateProvinceID
+            description: State or province for this city
+            tests:
+              - not_null
+          - name: Location
+            description: Geographic location of the city
+          - name: LatestRecordedPopulation
+            description: Latest available population for the City
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_Cities_Archive
+        description: Historical data of cities that are part of any address
+        columns:
+          - name: CityID
+            description: Numeric ID used for reference to a city within the database
+            tests:
+              - not_null
+          - name: CityName
+            description: Formal name of the city
+            tests:
+              - not_null
+          - name: StateProvinceID
+            description: State or province for this city
+            tests:
+              - not_null
+          - name: Location
+            description: Geographic location of the city
+          - name: LatestRecordedPopulation
+            description: Latest available population for the City
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_Countries
+        description: Countries that contain the states or provinces (including geographic boundaries)
+        columns:
+          - name: CountryID
+            description: Numeric ID used for reference to a country within the database
+            tests:
+              - unique
+              - not_null
+          - name: CountryName
+            description: Name of the country
+            tests:
+              - not_null
+          - name: FormalName
+            description: Full formal name of the country as agreed by United Nations
+            tests:
+              - not_null
+          - name: IsoAlpha3Code
+            description: 3 letter alphabetic code assigned to the country by ISO
+          - name: IsoNumericCode
+            description: Numeric code assigned to the country by ISO
+          - name: CountryType
+            description: Type of country or administrative region
+          - name: LatestRecordedPopulation
+            description: Latest available population for the country
+          - name: Continent
+            description: Name of the continent
+            tests:
+              - not_null
+          - name: Region
+            description: Name of the region
+            tests:
+              - not_null
+          - name: Subregion
+            description: Name of the subregion
+            tests:
+              - not_null
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_Countries_Archive
+        description: Historical data of countries that contain the states or provinces
+        columns:
+          - name: CountryID
+            description: Numeric ID used for reference to a country within the database
+            tests:
+              - not_null
+          - name: CountryName
+            description: Name of the country
+            tests:
+              - not_null
+          - name: FormalName
+            description: Full formal name of the country as agreed by United Nations
+            tests:
+              - not_null
+          - name: IsoAlpha3Code
+            description: 3 letter alphabetic code assigned to the country by ISO
+          - name: IsoNumericCode
+            description: Numeric code assigned to the country by ISO
+          - name: CountryType
+            description: Type of country or administrative region
+          - name: LatestRecordedPopulation
+            description: Latest available population for the country
+          - name: Continent
+            description: Name of the continent
+            tests:
+              - not_null
+          - name: Region
+            description: Name of the region
+            tests:
+              - not_null
+          - name: Subregion
+            description: Name of the subregion
+            tests:
+              - not_null
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_StateProvinces
+        description: States or provinces that contain cities (including geographic location)
+        columns:
+          - name: StateProvinceID
+            description: Numeric ID used for reference to a state or province within the database
+            tests:
+              - unique
+              - not_null
+          - name: StateProvinceCode
+            description: Common code for this state or province (such as WA - Washington for the USA)
+          - name: StateProvinceName
+            description: Formal name of the state or province
+          - name: CountryID
+            description: Country for this StateProvince
+          - name: SalesTerritory
+            description: Sales territory for this StateProvince
+          - name: LatestRecordedPopulation
+            description: Latest available population for the StateProvince
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_StateProvinces_Archive
+        description: Historical data of states or provinces that contain cities (including geographic location)
+        columns:
+          - name: StateProvinceID
+            description: Numeric ID used for reference to a state or province within the database
+            tests:
+              - not_null
+          - name: StateProvinceCode
+            description: Common code for this state or province (such as WA - Washington for the USA)
+            tests:
+              - not_null
+          - name: StateProvinceName
+            description: Formal name of the state or province
+            tests:
+              - not_null
+          - name: CountryID
+            description: Country for this StateProvince
+            tests:
+              - not_null
+          - name: SalesTerritory
+            description: Sales territory for this StateProvince
+            tests:
+              - not_null
+          - name: LatestRecordedPopulation
+            description: Latest available population for the StateProvince
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}

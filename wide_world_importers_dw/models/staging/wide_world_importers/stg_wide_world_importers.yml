@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: stg_cities
+    description: Staged cities data from our wide world importers app.
+    columns: 
+      - name: wwi_city_id
+        description: The primary key for customers.
+        tests:
+          - not_null
