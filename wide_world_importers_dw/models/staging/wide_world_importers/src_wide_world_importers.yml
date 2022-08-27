@@ -459,3 +459,191 @@ sources:
         freshness:
           warn_after: {count: 24, period: hour}
           error_after: {count: 48, period: hour}
+      - name: Application_PaymentMethods
+        description: Ways that payments can be made (e.g. cash, check, EFT, etc.)
+        columns:
+          - name: PaymentMethodID
+            description: Numeric ID used for reference to a payment type within the database
+            tests:
+              - unique
+              - not_null
+          - name: PaymentMethodName
+            description: Full name of ways that customers can make payments or that suppliers can be paid
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_PaymentMethods_Archive
+        description: Historical data of ways that payments can be made (e.g. cash, check, EFT, etc.)
+        columns:
+          - name: PaymentMethodID
+            description: Numeric ID used for reference to a payment type within the database
+            tests:
+              - not_null
+          - name: PaymentMethodName
+            description: Full name of ways that customers can make payments or that suppliers can be paid
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_StockItems
+        description: Main entity table for stock items
+        columns:
+          - name: StockItemID
+            description: Numeric ID used for reference to a stock item within the database
+            tests:
+              - unique
+              - not_null
+          - name: StockItemName
+            description: Full name of a stock item (but not a full description)
+          - name: SupplierID
+            description: Usual supplier for this stock item
+          - name: ColorID
+            description: Color (optional) for this stock item
+          - name: UnitPackageID
+            description: Usual package for selling units of this stock item
+          - name: OuterPackageID
+            description: Usual package for selling outers of this stock item (ie cartons, boxes, etc.)
+          - name: Brand
+            description: Brand for the stock item (if the item is branded)
+          - name: Size
+            description: Size of this item (eg 100mm)
+          - name: LeadTimeDays
+            description: Number of days typically taken from order to receipt of this stock item
+          - name: QuantityPerOuter
+            description: Quantity of the stock item in an outer package
+          - name: IsChillerStock
+            description: Does this stock item need to be in a chiller?
+          - name: Barcode
+            description: Barcode for this stock item
+          - name: TaxRate
+            description: Tax rate to be applied
+          - name: UnitPrice
+            description: Selling price (ex-tax) for one unit of this product
+          - name: RecommendedRetailPrice
+            description: Recommended retail price for this stock item
+          - name: TypicalWeightPerUnit
+            description: Typical weight for one unit of this product (packaged)
+          - name: MarketingComments
+            description: Marketing comments for this stock item (shared outside the organization)
+          - name: InternalComments
+            description: Internal comments (not exposed outside organization)
+          - name: Photo
+            description: Photo of the product
+          - name: CustomFields
+            description: Custom fields added by system users
+          - name: Tags
+            description: Advertising tags associated with this stock item (JSON array retrieved from CustomFields)
+          - name: SearchDetails
+            description: Combination of columns used by full text search
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_StockItems_Archive
+        description: Historical data of stock items
+        columns:
+          - name: StockItemID
+            description: Numeric ID used for reference to a stock item within the database
+            tests:
+              - not_null
+          - name: StockItemName
+            description: Full name of a stock item (but not a full description)
+          - name: SupplierID
+            description: Usual supplier for this stock item
+          - name: ColorID
+            description: Color (optional) for this stock item
+          - name: UnitPackageID
+            description: Usual package for selling units of this stock item
+          - name: OuterPackageID
+            description: Usual package for selling outers of this stock item (ie cartons, boxes, etc.)
+          - name: Brand
+            description: Brand for the stock item (if the item is branded)
+          - name: Size
+            description: Size of this item (eg 100mm)
+          - name: LeadTimeDays
+            description: Number of days typically taken from order to receipt of this stock item
+          - name: QuantityPerOuter
+            description: Quantity of the stock item in an outer package
+          - name: IsChillerStock
+            description: Does this stock item need to be in a chiller?
+          - name: Barcode
+            description: Barcode for this stock item
+          - name: TaxRate
+            description: Tax rate to be applied
+          - name: UnitPrice
+            description: Selling price (ex-tax) for one unit of this product
+          - name: RecommendedRetailPrice
+            description: Recommended retail price for this stock item
+          - name: TypicalWeightPerUnit
+            description: Typical weight for one unit of this product (packaged)
+          - name: MarketingComments
+            description: Marketing comments for this stock item (shared outside the organization)
+          - name: InternalComments
+            description: Internal comments (not exposed outside organization)
+          - name: Photo
+            description: Photo of the product
+          - name: CustomFields
+            description: Custom fields added by system users
+          - name: Tags
+            description: Advertising tags associated with this stock item (JSON array retrieved from CustomFields)
+          - name: SearchDetails
+            description: Combination of columns used by full text search
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_PackageTypes
+        description: Ways that stock items can be packaged (e.g. each, box, carton, pallet, kg, etc.)
+        columns:
+          - name: PackageTypeID
+            description: Numeric ID used for reference to a package type within the database
+            tests:
+              - unique
+              - not_null
+          - name: PackageTypeName
+            description: Full name of package types that stock items can be purchased in or sold in
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_PackageTypes_Archive
+        description: Historical data of ways that stock items can be packaged (e.g. each, box, carton, pallet, kg, etc.)
+        columns:
+          - name: PackageTypeID
+            description: Numeric ID used for reference to a package type within the database
+            tests:
+              - not_null
+          - name: PackageTypeName
+            description: Full name of package types that stock items can be purchased in or sold in
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_Colors
+        description: Stock items can (optionally) have colors
+        columns:
+          - name: ColorID
+            description: Numeric ID used for reference to a color within the database
+            tests:
+              - unique
+              - not_null
+          - name: ColorName
+            description: Full name of a color that can be used to describe stock items
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_Colors_Archive
+        description: Historical data of colors
+        columns:
+          - name: ColorID
+            description: Numeric ID used for reference to a color within the database
+            tests:
+              - not_null
+          - name: ColorName
+            description: Full name of a color that can be used to describe stock items
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
