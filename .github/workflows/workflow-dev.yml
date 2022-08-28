@@ -29,4 +29,7 @@ jobs:
         - ${{ github.workspace }}/dbt:/root/.dbt/
     steps:
     - name: Resolve Dependencies
-      run: dbt deps --target dev
+    #  run: dbt deps --target dev
+      run: |
+        ls /usr/app
+        ls /root/.dbt/
