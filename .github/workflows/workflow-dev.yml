@@ -45,3 +45,20 @@ jobs:
         with:
           name: docs
           path: wide_world_importers_dw/target
+  great_expectations:
+    runs-on: ubuntu-latest
+    needs: deploy
+    container: 
+      image: bytesmith/great-expectations:latest
+      env:
+        bigquery_connection_string: ${{ secrets.GE_BIGQUERY_CONNECTION_STRING }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run Checkpoint
+        run: great_expectations checkpoint run wide_world_importers_dw_checkpoint
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ge
+          path: great_expectations/uncommitted
