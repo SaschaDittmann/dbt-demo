@@ -7,7 +7,7 @@ on:
       - dev
 
 jobs:
-  deploy:
+  transform:
     runs-on: ubuntu-latest
     container: 
       image: bytesmith/dbt-bigquery:latest
@@ -45,9 +45,9 @@ jobs:
         with:
           name: docs
           path: wide_world_importers_dw/target
-  great_expectations:
+  test:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: transform
     container: 
       image: bytesmith/great-expectations:latest
       env:
