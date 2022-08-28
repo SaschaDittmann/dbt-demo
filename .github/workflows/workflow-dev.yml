@@ -11,9 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     container: 
       image: bytesmith/dbt-bigquery:latest
+      env:
+        DBT_ENV_SECRET_DEV_PROJECT_ID: ${{ secrets.DBT_ENV_SECRET_DEV_PROJECT_ID }}
+        DBT_ENV_SECRET_DEV_KEYFILE_PRIVATE_KEY_ID: ${{ secrets.DBT_ENV_SECRET_DEV_KEYFILE_PRIVATE_KEY_ID }}
+        DBT_ENV_SECRET_DEV_KEYFILE_PRIVATE_KEY: ${{ secrets.DBT_ENV_SECRET_DEV_KEYFILE_PRIVATE_KEY }}
+        DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_EMAIL: ${{ secrets.DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_EMAIL }}
+        DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_ID: ${{ secrets.DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_ID }}
+        DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_X509_CERT_URL: ${{ secrets.DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_X509_CERT_URL }}
       volumes:
         - /github/workspace/wide_world_importers_dw:/usr/app
         - /github/workspace/dbt:/root/.dbt/
     steps:
     - name: Resolve Dependencies
-      run: deps
+      run: dbt deps
