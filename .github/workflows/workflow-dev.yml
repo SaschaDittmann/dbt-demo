@@ -51,7 +51,7 @@ jobs:
     container: 
       image: bytesmith/great-expectations:latest
       env:
-        bigquery_connection_string: ${{ secrets.GE_BIGQUERY_CONNECTION_STRING }}
+        bigquery_connection_string: "${{ secrets.GE_BIGQUERY_CONNECTION_STRING }}"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
