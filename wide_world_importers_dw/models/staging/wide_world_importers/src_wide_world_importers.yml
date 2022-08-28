@@ -456,9 +456,9 @@ sources:
           - name: BuyingGroupName
             description: Full name of a buying group that customers can be members of
         loaded_at_field: _airbyte_normalized_at
-        freshness:
-          warn_after: {count: 24, period: hour}
-          error_after: {count: 48, period: hour}
+        # freshness:
+        #  warn_after: {count: 24, period: hour}
+        #  error_after: {count: 48, period: hour}
       - name: Application_PaymentMethods
         description: Ways that payments can be made (e.g. cash, check, EFT, etc.)
         columns:
@@ -617,9 +617,9 @@ sources:
           - name: PackageTypeName
             description: Full name of package types that stock items can be purchased in or sold in
         loaded_at_field: _airbyte_normalized_at
-        freshness:
-          warn_after: {count: 24, period: hour}
-          error_after: {count: 48, period: hour}
+        # freshness:
+        #   warn_after: {count: 24, period: hour}
+        #   error_after: {count: 48, period: hour}
       - name: Warehouse_Colors
         description: Stock items can (optionally) have colors
         columns:
