@@ -51,7 +51,7 @@ jobs:
     container: 
       image: bytesmith/great-expectations:latest
       env:
-        bigquery_connection_string: ${{ secrets.GE_BIGQUERY_CONNECTION_STRING }}
+        GE_BIGQUERY_CONNECTION_STRING: ${{ secrets.GE_BIGQUERY_CONNECTION_STRING }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -59,7 +59,7 @@ jobs:
         run: |
           mkdir -p great_expectations/uncommitted/data_docs
           mkdir -p great_expectations/uncommitted/validations
-          echo "instance_id: b47db2a7-e628-4a5d-a48d-8b167467fddc" > great_expectations/uncommitted/config_variables.yml
+          echo "instance_id: b47db2a7-e628-4a5d-a48d-8b167467fddc\nbigquery_connection_string: ${GE_BIGQUERY_CONNECTION_STRING}\n" > great_expectations/uncommitted/config_variables.yml
       - name: Run Checkpoint
         run: great_expectations checkpoint run wide_world_importers_dw_checkpoint
       - name: Upload Artifacts
