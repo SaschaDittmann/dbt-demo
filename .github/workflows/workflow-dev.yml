@@ -51,19 +51,15 @@ jobs:
     container: 
       image: bytesmith/great-expectations:latest
       env:
-        BQ_CREDENTIALS: ${{ secrets.BQ_CREDENTIALS }}
+        bigquery_connection_string: ${{ secrets.GE_BIGQUERY_CONNECTION_STRING }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Initialize Great Expectations
         run: |
-          mkdir -p great_expectations/certs
-          echo $BQ_CREDENTIALS > great_expectations/certs/service_account.json
-      - name: Initialize Great Expectations
-        run: |
           mkdir -p great_expectations/uncommitted/data_docs
           mkdir -p great_expectations/uncommitted/validations
-          echo "instance_id: b47db2a7-e628-4a5d-a48d-8b167467fddc\nbigquery_connection_string: bigquery://smart-analytics-demos/wide_world_importers_dw?credentials_path=great_expectations/certs/service_account.json&location=EU&arraysize=1000&priority=INTERACTIVE&use_query_cache=true\n" > great_expectations/uncommitted/config_variables.yml
+          echo "instance_id: b47db2a7-e628-4a5d-a48d-8b167467fddc" > great_expectations/uncommitted/config_variables.yml
       - name: Run Checkpoint
         run: great_expectations checkpoint run wide_world_importers_dw_checkpoint
       - name: Upload Artifacts
