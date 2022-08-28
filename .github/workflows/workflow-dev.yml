@@ -1,0 +1,19 @@
+name: Deploy (Dev)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:    
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container: 
+      image: bytesmith/dbt-bigquery:latest
+      volumes:
+        - /github/workspace/wide_world_importers_dw:/usr/app
+        - /github/workspace/dbt:/root/.dbt/
+    steps:
+    - name: Resolve Dependencies
+      run: deps
