@@ -1,0 +1,39 @@
+name: wide_world_importers_dw_checkpoint
+config_version: 1.0
+template_name:
+module_name: great_expectations.checkpoint
+class_name: Checkpoint
+run_name_template: '%Y%m%d-%H%M%S'
+expectation_suite_name:
+batch_request: {}
+action_list:
+  - name: store_validation_result
+    action:
+      class_name: StoreValidationResultAction
+  - name: store_evaluation_params
+    action:
+      class_name: StoreEvaluationParametersAction
+  - name: update_data_docs
+    action:
+      class_name: UpdateDataDocsAction
+      site_names: []
+evaluation_parameters: {}
+runtime_configuration: {}
+validations:
+  - batch_request:
+      datasource_name: wide_world_importers_dw
+      data_connector_name: default_inferred_data_connector_name
+      data_asset_name: wide_world_importers_dw.dim_city
+      data_connector_query:
+        index: -1
+    expectation_suite_name: wide_world_importers_dw.dim_city.warning
+  - batch_request:
+      datasource_name: wide_world_importers_dw
+      data_connector_name: default_inferred_data_connector_name
+      data_asset_name: wide_world_importers_dw.dim_customer
+      data_connector_query:
+        index: -1
+    expectation_suite_name: wide_world_importers_dw.dim_customer.warning
+profilers: []
+ge_cloud_id:
+expectation_suite_ge_cloud_id:
