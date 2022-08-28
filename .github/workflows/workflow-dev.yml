@@ -13,6 +13,7 @@ jobs:
       image: bytesmith/dbt-bigquery:latest
       env:
         DBT_TARGET: dev
+        DBT_PROJECT_DIR: ./wide_world_importers_dw
         DBT_ENV_SECRET_DEV_PROJECT_ID: ${{ secrets.DBT_ENV_SECRET_DEV_PROJECT_ID }}
         DBT_ENV_SECRET_DEV_KEYFILE_PRIVATE_KEY_ID: ${{ secrets.DBT_ENV_SECRET_DEV_KEYFILE_PRIVATE_KEY_ID }}
         DBT_ENV_SECRET_DEV_KEYFILE_PRIVATE_KEY: ${{ secrets.DBT_ENV_SECRET_DEV_KEYFILE_PRIVATE_KEY }}
@@ -26,8 +27,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Resolve Dependencies
-        run: dbt deps --project-dir=./wide_world_importers_dw --profiles-dir=./dbt --target=$DBT_TARGET
+        run: dbt deps --project-dir=$DBT_PROJECT_DIR --profiles-dir=./dbt --target=$DBT_TARGET
       - name: Check Source Freshness
-        run: dbt source freshness --project-dir=./wide_world_importers_dw --profiles-dir=./dbt --target=$DBT_TARGET
+        run: dbt source freshness --project-dir=$DBT_PROJECT_DIR --profiles-dir=./dbt --target=$DBT_TARGET
       - name: Run Source Tests
-        run: dbt test --select source:wide_world_importers --project-dir=./wide_world_importers_dw --profiles-dir=./dbt --target=$DBT_TARGET
+        run: dbt test --select source:* --project-dir=$DBT_PROJECT_DIR --profiles-dir=./dbt --target=$DBT_TARGET
+      - name: Add Seeds
+        run: dbt seed --project-dir=$DBT_PROJECT_DIR --profiles-dir=./dbt --target=$DBT_TARGET
+      - name: Run Transformations
+        run: dbt run --project-dir=$DBT_PROJECT_DIR --profiles-dir=./dbt --target=$DBT_TARGET
+      - name: Run Tests
+        run: dbt test --exclude source:* --project-dir=$DBT_PROJECT_DIR --profiles-dir=./dbt --target=$DBT_TARGET
