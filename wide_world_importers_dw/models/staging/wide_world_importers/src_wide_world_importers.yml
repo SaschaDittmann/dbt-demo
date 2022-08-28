@@ -1,0 +1,854 @@
+version: 2
+
+sources:
+  - name: wide_world_importers
+    description: A clone of a Postgres application database.
+    database: smart-analytics-demos
+    schema: wide_world_importers
+    tables:
+      - name: Application_Cities
+        description: Cities that are part of any address (including geographic location)
+        columns:
+          - name: CityID
+            description: Numeric ID used for reference to a city within the database
+            tests:
+              - unique
+              - not_null
+          - name: CityName
+            description: Formal name of the city
+            tests:
+              - not_null
+          - name: StateProvinceID
+            description: State or province for this city
+            tests:
+              - not_null
+          - name: Location
+            description: Geographic location of the city
+          - name: LatestRecordedPopulation
+            description: Latest available population for the City
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_Cities_Archive
+        description: Historical data of cities that are part of any address
+        columns:
+          - name: CityID
+            description: Numeric ID used for reference to a city within the database
+            tests:
+              - not_null
+          - name: CityName
+            description: Formal name of the city
+            tests:
+              - not_null
+          - name: StateProvinceID
+            description: State or province for this city
+            tests:
+              - not_null
+          - name: Location
+            description: Geographic location of the city
+          - name: LatestRecordedPopulation
+            description: Latest available population for the City
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_Countries
+        description: Countries that contain the states or provinces (including geographic boundaries)
+        columns:
+          - name: CountryID
+            description: Numeric ID used for reference to a country within the database
+            tests:
+              - unique
+              - not_null
+          - name: CountryName
+            description: Name of the country
+            tests:
+              - not_null
+          - name: FormalName
+            description: Full formal name of the country as agreed by United Nations
+            tests:
+              - not_null
+          - name: IsoAlpha3Code
+            description: 3 letter alphabetic code assigned to the country by ISO
+          - name: IsoNumericCode
+            description: Numeric code assigned to the country by ISO
+          - name: CountryType
+            description: Type of country or administrative region
+          - name: LatestRecordedPopulation
+            description: Latest available population for the country
+          - name: Continent
+            description: Name of the continent
+            tests:
+              - not_null
+          - name: Region
+            description: Name of the region
+            tests:
+              - not_null
+          - name: Subregion
+            description: Name of the subregion
+            tests:
+              - not_null
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_Countries_Archive
+        description: Historical data of countries that contain the states or provinces
+        columns:
+          - name: CountryID
+            description: Numeric ID used for reference to a country within the database
+            tests:
+              - not_null
+          - name: CountryName
+            description: Name of the country
+            tests:
+              - not_null
+          - name: FormalName
+            description: Full formal name of the country as agreed by United Nations
+            tests:
+              - not_null
+          - name: IsoAlpha3Code
+            description: 3 letter alphabetic code assigned to the country by ISO
+          - name: IsoNumericCode
+            description: Numeric code assigned to the country by ISO
+          - name: CountryType
+            description: Type of country or administrative region
+          - name: LatestRecordedPopulation
+            description: Latest available population for the country
+          - name: Continent
+            description: Name of the continent
+            tests:
+              - not_null
+          - name: Region
+            description: Name of the region
+            tests:
+              - not_null
+          - name: Subregion
+            description: Name of the subregion
+            tests:
+              - not_null
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_StateProvinces
+        description: States or provinces that contain cities (including geographic location)
+        columns:
+          - name: StateProvinceID
+            description: Numeric ID used for reference to a state or province within the database
+            tests:
+              - unique
+              - not_null
+          - name: StateProvinceCode
+            description: Common code for this state or province (such as WA - Washington for the USA)
+          - name: StateProvinceName
+            description: Formal name of the state or province
+          - name: CountryID
+            description: Country for this StateProvince
+          - name: SalesTerritory
+            description: Sales territory for this StateProvince
+          - name: LatestRecordedPopulation
+            description: Latest available population for the StateProvince
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_StateProvinces_Archive
+        description: Historical data of states or provinces that contain cities (including geographic location)
+        columns:
+          - name: StateProvinceID
+            description: Numeric ID used for reference to a state or province within the database
+            tests:
+              - not_null
+          - name: StateProvinceCode
+            description: Common code for this state or province (such as WA - Washington for the USA)
+            tests:
+              - not_null
+          - name: StateProvinceName
+            description: Formal name of the state or province
+            tests:
+              - not_null
+          - name: CountryID
+            description: Country for this StateProvince
+            tests:
+              - not_null
+          - name: SalesTerritory
+            description: Sales territory for this StateProvince
+            tests:
+              - not_null
+          - name: LatestRecordedPopulation
+            description: Latest available population for the StateProvince
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_People
+        description: People known to the application (staff, customer contacts, supplier contacts)
+        columns:
+          - name: PersonID
+            description: Numeric ID used for reference to a person within the database
+            tests:
+              - unique
+              - not_null
+          - name: FullName
+            description: Full name for this person
+          - name: PreferredName
+            description: Name that this person prefers to be called
+          - name: SearchName
+            description: Name to build full text search on (computed column)
+          - name: IsPermittedToLogon
+            description: Is this person permitted to log on?
+          - name: LogonName
+            description: Person's system logon name
+          - name: IsExternalLogonProvider
+            description: Is logon token provided by an external system?
+          - name: HashedPassword
+            description: Hash of password for users without external logon tokens
+          - name: IsSystemUser
+            description: Is the currently permitted to make online access?
+          - name: IsEmployee
+            description: Is this person an employee?
+          - name: IsSalesperson
+            description: Is this person a staff salesperson?
+          - name: UserPreferences
+            description: User preferences related to the website (holds JSON data)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: EmailAddress
+            description: Email address for this person
+          - name: Photo
+            description: Photo of this person
+          - name: CustomFields
+            description: Custom fields for employees and salespeople
+          - name: OtherLanguages
+            description: Other languages spoken (computed column from custom fields)
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_People_Archive
+        description: Historical data of people known to the application (staff, customer contacts, supplier contacts)
+        columns:
+          - name: PersonID
+            description: Numeric ID used for reference to a person within the database
+            tests:
+              - not_null
+          - name: FullName
+            description: Full name for this person
+          - name: PreferredName
+            description: Name that this person prefers to be called
+          - name: SearchName
+            description: Name to build full text search on (computed column)
+          - name: IsPermittedToLogon
+            description: Is this person permitted to log on?
+          - name: LogonName
+            description: Person's system logon name
+          - name: IsExternalLogonProvider
+            description: Is logon token provided by an external system?
+          - name: HashedPassword
+            description: Hash of password for users without external logon tokens
+          - name: IsSystemUser
+            description: Is the currently permitted to make online access?
+          - name: IsEmployee
+            description: Is this person an employee?
+          - name: IsSalesperson
+            description: Is this person a staff salesperson?
+          - name: UserPreferences
+            description: User preferences related to the website (holds JSON data)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: EmailAddress
+            description: Email address for this person
+          - name: Photo
+            description: Photo of this person
+          - name: CustomFields
+            description: Custom fields for employees and salespeople
+          - name: OtherLanguages
+            description: Other languages spoken (computed column from custom fields)
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_Customers
+        description: Main entity tables for customers (organizations or individuals)
+        columns:
+          - name: CustomerID
+            description: Numeric ID used for reference to a customer within the database
+            tests:
+              - unique
+              - not_null
+          - name: CustomerName
+            description: Customer's full name (usually a trading name)
+          - name: BillToCustomerID
+            description: Customer that this is billed to (usually the same customer but can be another parent company)
+          - name: CustomerCategoryID
+            description: Customer's category
+          - name: BuyingGroupID
+            description: Customer's buying group (optional)
+          - name: PrimaryContactPersonID
+            description: Primary contact
+          - name: AlternateContactPersonID
+            description: Alternate contact
+          - name: DeliveryMethodID
+            description: Standard delivery method for stock items sent to this customer
+          - name: DeliveryCityID
+            description: ID of the delivery city for this address
+          - name: PostalCityID
+            description: ID of the postal city for this address
+          - name: CreditLimit
+            description: Credit limit for this customer (NULL if unlimited)
+          - name: AccountOpenedDate
+            description: Date this customer account was opened
+          - name: StandardDiscountPercentage
+            description: Standard discount offered to this customer
+          - name: IsStatementSent
+            description: Is a statement sent to this customer? (Or do they just pay on each invoice?)
+          - name: IsOnCreditHold
+            description: Is this customer on credit hold? (Prevents further deliveries to this customer)
+          - name: PaymentDays
+            description: Number of days for payment of an invoice (ie payment terms)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: DeliveryRun
+            description: Normal delivery run for this customer
+          - name: RunPosition
+            description: Normal position in the delivery run for this customer
+          - name: WebsiteURL
+            description: URL for the website for this customer
+          - name: DeliveryAddressLine1
+            description: First delivery address line for the customer
+          - name: DeliveryAddressLine2
+            description: Second delivery address line for the customer
+          - name: DeliveryPostalCode
+            description: Delivery postal code for the customer
+          - name: DeliveryLocation
+            description: Geographic location for the customer's office/warehouse
+          - name: PostalAddressLine1
+            description: First postal address line for the customer
+          - name: PostalAddressLine2
+            description: Second postal address line for the customer
+          - name: PostalPostalCode
+            description: Postal code for the customer when sending by mail
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_Customers_Archive
+        description: Historical data of customers (organizations or individuals)
+        columns:
+          - name: CustomerID
+            description: Numeric ID used for reference to a customer within the database
+            tests:
+              - not_null
+          - name: CustomerName
+            description: Customer's full name (usually a trading name)
+          - name: BillToCustomerID
+            description: Customer that this is billed to (usually the same customer but can be another parent company)
+          - name: CustomerCategoryID
+            description: Customer's category
+          - name: BuyingGroupID
+            description: Customer's buying group (optional)
+          - name: PrimaryContactPersonID
+            description: Primary contact
+          - name: AlternateContactPersonID
+            description: Alternate contact
+          - name: DeliveryMethodID
+            description: Standard delivery method for stock items sent to this customer
+          - name: DeliveryCityID
+            description: ID of the delivery city for this address
+          - name: PostalCityID
+            description: ID of the postal city for this address
+          - name: CreditLimit
+            description: Credit limit for this customer (NULL if unlimited)
+          - name: AccountOpenedDate
+            description: Date this customer account was opened
+          - name: StandardDiscountPercentage
+            description: Standard discount offered to this customer
+          - name: IsStatementSent
+            description: Is a statement sent to this customer? (Or do they just pay on each invoice?)
+          - name: IsOnCreditHold
+            description: Is this customer on credit hold? (Prevents further deliveries to this customer)
+          - name: PaymentDays
+            description: Number of days for payment of an invoice (ie payment terms)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: DeliveryRun
+            description: Normal delivery run for this customer
+          - name: RunPosition
+            description: Normal position in the delivery run for this customer
+          - name: WebsiteURL
+            description: URL for the website for this customer
+          - name: DeliveryAddressLine1
+            description: First delivery address line for the customer
+          - name: DeliveryAddressLine2
+            description: Second delivery address line for the customer
+          - name: DeliveryPostalCode
+            description: Delivery postal code for the customer
+          - name: DeliveryLocation
+            description: Geographic location for the customer's office/warehouse
+          - name: PostalAddressLine1
+            description: First postal address line for the customer
+          - name: PostalAddressLine2
+            description: Second postal address line for the customer
+          - name: PostalPostalCode
+            description: Postal code for the customer when sending by mail
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_CustomerCategories
+        description: Categories for customers (ie restaurants, cafes, supermarkets, etc.)
+        columns:
+          - name: CustomerCategoryID
+            description: Numeric ID used for reference to a customer category within the database
+            tests:
+              - unique
+              - not_null
+          - name: CustomerCategoryName
+            description: Full name of the category that customers can be assigned to
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_CustomerCategories_Archive
+        description: Historical data of categories for customers (ie restaurants, cafes, supermarkets, etc.)
+        columns:
+          - name: CustomerCategoryID
+            description: Numeric ID used for reference to a customer category within the database
+            tests:
+              - not_null
+          - name: CustomerCategoryName
+            description: Full name of the category that customers can be assigned to
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_BuyingGroups
+        description: Customer organizations can be part of groups that exert greater buying power
+        columns:
+          - name: BuyingGroupID
+            description: Numeric ID used for reference to a buying group within the database
+            tests:
+              - unique
+              - not_null
+          - name: BuyingGroupName
+            description: Full name of a buying group that customers can be members of
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Sales_BuyingGroups_Archive
+        description: Historical data of customer organizations can be part of groups that exert greater buying power
+        columns:
+          - name: BuyingGroupID
+            description: Numeric ID used for reference to a buying group within the database
+            tests:
+              - not_null
+          - name: BuyingGroupName
+            description: Full name of a buying group that customers can be members of
+        loaded_at_field: _airbyte_normalized_at
+        # freshness:
+        #  warn_after: {count: 24, period: hour}
+        #  error_after: {count: 48, period: hour}
+      - name: Application_PaymentMethods
+        description: Ways that payments can be made (e.g. cash, check, EFT, etc.)
+        columns:
+          - name: PaymentMethodID
+            description: Numeric ID used for reference to a payment type within the database
+            tests:
+              - unique
+              - not_null
+          - name: PaymentMethodName
+            description: Full name of ways that customers can make payments or that suppliers can be paid
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_PaymentMethods_Archive
+        description: Historical data of ways that payments can be made (e.g. cash, check, EFT, etc.)
+        columns:
+          - name: PaymentMethodID
+            description: Numeric ID used for reference to a payment type within the database
+            tests:
+              - not_null
+          - name: PaymentMethodName
+            description: Full name of ways that customers can make payments or that suppliers can be paid
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_StockItems
+        description: Main entity table for stock items
+        columns:
+          - name: StockItemID
+            description: Numeric ID used for reference to a stock item within the database
+            tests:
+              - unique
+              - not_null
+          - name: StockItemName
+            description: Full name of a stock item (but not a full description)
+          - name: SupplierID
+            description: Usual supplier for this stock item
+          - name: ColorID
+            description: Color (optional) for this stock item
+          - name: UnitPackageID
+            description: Usual package for selling units of this stock item
+          - name: OuterPackageID
+            description: Usual package for selling outers of this stock item (ie cartons, boxes, etc.)
+          - name: Brand
+            description: Brand for the stock item (if the item is branded)
+          - name: Size
+            description: Size of this item (eg 100mm)
+          - name: LeadTimeDays
+            description: Number of days typically taken from order to receipt of this stock item
+          - name: QuantityPerOuter
+            description: Quantity of the stock item in an outer package
+          - name: IsChillerStock
+            description: Does this stock item need to be in a chiller?
+          - name: Barcode
+            description: Barcode for this stock item
+          - name: TaxRate
+            description: Tax rate to be applied
+          - name: UnitPrice
+            description: Selling price (ex-tax) for one unit of this product
+          - name: RecommendedRetailPrice
+            description: Recommended retail price for this stock item
+          - name: TypicalWeightPerUnit
+            description: Typical weight for one unit of this product (packaged)
+          - name: MarketingComments
+            description: Marketing comments for this stock item (shared outside the organization)
+          - name: InternalComments
+            description: Internal comments (not exposed outside organization)
+          - name: Photo
+            description: Photo of the product
+          - name: CustomFields
+            description: Custom fields added by system users
+          - name: Tags
+            description: Advertising tags associated with this stock item (JSON array retrieved from CustomFields)
+          - name: SearchDetails
+            description: Combination of columns used by full text search
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_StockItems_Archive
+        description: Historical data of stock items
+        columns:
+          - name: StockItemID
+            description: Numeric ID used for reference to a stock item within the database
+            tests:
+              - not_null
+          - name: StockItemName
+            description: Full name of a stock item (but not a full description)
+          - name: SupplierID
+            description: Usual supplier for this stock item
+          - name: ColorID
+            description: Color (optional) for this stock item
+          - name: UnitPackageID
+            description: Usual package for selling units of this stock item
+          - name: OuterPackageID
+            description: Usual package for selling outers of this stock item (ie cartons, boxes, etc.)
+          - name: Brand
+            description: Brand for the stock item (if the item is branded)
+          - name: Size
+            description: Size of this item (eg 100mm)
+          - name: LeadTimeDays
+            description: Number of days typically taken from order to receipt of this stock item
+          - name: QuantityPerOuter
+            description: Quantity of the stock item in an outer package
+          - name: IsChillerStock
+            description: Does this stock item need to be in a chiller?
+          - name: Barcode
+            description: Barcode for this stock item
+          - name: TaxRate
+            description: Tax rate to be applied
+          - name: UnitPrice
+            description: Selling price (ex-tax) for one unit of this product
+          - name: RecommendedRetailPrice
+            description: Recommended retail price for this stock item
+          - name: TypicalWeightPerUnit
+            description: Typical weight for one unit of this product (packaged)
+          - name: MarketingComments
+            description: Marketing comments for this stock item (shared outside the organization)
+          - name: InternalComments
+            description: Internal comments (not exposed outside organization)
+          - name: Photo
+            description: Photo of the product
+          - name: CustomFields
+            description: Custom fields added by system users
+          - name: Tags
+            description: Advertising tags associated with this stock item (JSON array retrieved from CustomFields)
+          - name: SearchDetails
+            description: Combination of columns used by full text search
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_PackageTypes
+        description: Ways that stock items can be packaged (e.g. each, box, carton, pallet, kg, etc.)
+        columns:
+          - name: PackageTypeID
+            description: Numeric ID used for reference to a package type within the database
+            tests:
+              - unique
+              - not_null
+          - name: PackageTypeName
+            description: Full name of package types that stock items can be purchased in or sold in
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_PackageTypes_Archive
+        description: Historical data of ways that stock items can be packaged (e.g. each, box, carton, pallet, kg, etc.)
+        columns:
+          - name: PackageTypeID
+            description: Numeric ID used for reference to a package type within the database
+            tests:
+              - not_null
+          - name: PackageTypeName
+            description: Full name of package types that stock items can be purchased in or sold in
+        loaded_at_field: _airbyte_normalized_at
+        # freshness:
+        #   warn_after: {count: 24, period: hour}
+        #   error_after: {count: 48, period: hour}
+      - name: Warehouse_Colors
+        description: Stock items can (optionally) have colors
+        columns:
+          - name: ColorID
+            description: Numeric ID used for reference to a color within the database
+            tests:
+              - unique
+              - not_null
+          - name: ColorName
+            description: Full name of a color that can be used to describe stock items
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_Colors_Archive
+        description: Historical data of colors
+        columns:
+          - name: ColorID
+            description: Numeric ID used for reference to a color within the database
+            tests:
+              - not_null
+          - name: ColorName
+            description: Full name of a color that can be used to describe stock items
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Purchasing_Suppliers
+        description: Main entity table for suppliers (organizations)
+        columns:
+          - name: SupplierID
+            description: Numeric ID used for reference to a supplier within the database
+            tests:
+              - unique
+              - not_null
+          - name: SupplierName
+            description: Supplier's full name (usually a trading name)
+          - name: SupplierCategoryID
+            description: Supplier's category
+          - name: PrimaryContactPersonID
+            description: Primary contact
+          - name: AlternateContactPersonID
+            description: Alternate contact
+          - name: DeliveryMethodID
+            description: Standard delivery method for stock items received from this supplier
+          - name: DeliveryCityID
+            description: ID of the delivery city for this address
+          - name: PostalCityID
+            description: ID of the mailing city for this address
+          - name: SupplierReference
+            description: Supplier reference for our organization (might be our account number at the supplier)
+          - name: BankAccountName
+            description: Supplier's bank account name (ie name on the account)
+          - name: BankAccountBranch
+            description: Supplier's bank branch
+          - name: BankAccountCode
+            description: Supplier's bank account code (usually a numeric reference for the bank branch)
+          - name: BankAccountNumber
+            description: Supplier''s bank account number
+          - name: BankInternationalCode
+            description: Supplier's bank's international code (such as a SWIFT code)
+          - name: PaymentDays
+            description: Number of days for payment of an invoice (ie payment terms)
+          - name: InternalComments
+            description: Internal comments (not exposed outside organization)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: WebsiteURL
+            description: URL for the website for this supplier
+          - name: DeliveryAddressLine1
+            description: First delivery address line for the supplier
+          - name: DeliveryAddressLine2
+            description: Second delivery address line for the supplier
+          - name: DeliveryPostalCode
+            description: Delivery postal code for the supplier
+          - name: DeliveryLocation
+            description: Geographic location for the supplier's office/warehouse
+          - name: PostalAddressLine1
+            description: First postal address line for the supplier
+          - name: PostalAddressLine2
+            description: Second postal address line for the supplier
+          - name: PostalPostalCode
+            description: Postal code for the supplier when sending by mail
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Purchasing_Suppliers_Archive
+        description: Historical data of suppliers (organizations)
+        columns:
+          - name: SupplierID
+            description: Numeric ID used for reference to a supplier within the database
+            tests:
+              - not_null
+          - name: SupplierName
+            description: Supplier's full name (usually a trading name)
+          - name: SupplierCategoryID
+            description: Supplier's category
+          - name: PrimaryContactPersonID
+            description: Primary contact
+          - name: AlternateContactPersonID
+            description: Alternate contact
+          - name: DeliveryMethodID
+            description: Standard delivery method for stock items received from this supplier
+          - name: DeliveryCityID
+            description: ID of the delivery city for this address
+          - name: PostalCityID
+            description: ID of the mailing city for this address
+          - name: SupplierReference
+            description: Supplier reference for our organization (might be our account number at the supplier)
+          - name: BankAccountName
+            description: Supplier's bank account name (ie name on the account)
+          - name: BankAccountBranch
+            description: Supplier's bank branch
+          - name: BankAccountCode
+            description: Supplier's bank account code (usually a numeric reference for the bank branch)
+          - name: BankAccountNumber
+            description: Supplier''s bank account number
+          - name: BankInternationalCode
+            description: Supplier's bank's international code (such as a SWIFT code)
+          - name: PaymentDays
+            description: Number of days for payment of an invoice (ie payment terms)
+          - name: InternalComments
+            description: Internal comments (not exposed outside organization)
+          - name: PhoneNumber
+            description: Phone number
+          - name: FaxNumber
+            description: Fax number
+          - name: WebsiteURL
+            description: URL for the website for this supplier
+          - name: DeliveryAddressLine1
+            description: First delivery address line for the supplier
+          - name: DeliveryAddressLine2
+            description: Second delivery address line for the supplier
+          - name: DeliveryPostalCode
+            description: Delivery postal code for the supplier
+          - name: DeliveryLocation
+            description: Geographic location for the supplier's office/warehouse
+          - name: PostalAddressLine1
+            description: First postal address line for the supplier
+          - name: PostalAddressLine2
+            description: Second postal address line for the supplier
+          - name: PostalPostalCode
+            description: Postal code for the supplier when sending by mail
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Purchasing_SupplierCategories
+        description: Categories for suppliers (ie novelties, toys, clothing, packaging, etc.)
+        columns:
+          - name: SupplierCategoryID
+            description: Numeric ID used for reference to a supplier category within the database
+            tests:
+              - unique
+              - not_null
+          - name: SupplierCategoryName
+            description: Full name of the category that suppliers can be assigned to
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Purchasing_SupplierCategories_Archive
+        description: Historical data of categories for suppliers (ie novelties, toys, clothing, packaging, etc.)
+        columns:
+          - name: SupplierCategoryID
+            description: Numeric ID used for reference to a supplier category within the database
+            tests:
+              - not_null
+          - name: SupplierCategoryName
+            description: Full name of the category that suppliers can be assigned to
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_TransactionTypes
+        description: Types of customer, supplier, or stock transactions (ie invoice, credit note, etc.)
+        columns:
+          - name: TransactionTypeID
+            description: Numeric ID used for reference to a transaction type within the database
+            tests:
+              - unique
+              - not_null
+          - name: TransactionTypeName
+            description: Full name of the transaction type
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Application_TransactionTypes_Archive
+        description: Historical data of types of customer, supplier, or stock transactions (ie invoice, credit note, etc.)
+        columns:
+          - name: TransactionTypeID
+            description: Numeric ID used for reference to a transaction type within the database
+            tests:
+              - not_null
+          - name: TransactionTypeName
+            description: Full name of the transaction type
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: Warehouse_StockItemTransactions
+        description: Transactions covering all movements of all stock items
+        columns:
+          - name: StockItemTransactionID
+            description: Numeric ID used to refer to a stock item transaction within the database
+            tests:
+              - unique
+              - not_null
+          - name: StockItemID
+            description: StockItem for this transaction
+          - name: TransactionTypeID
+            description: Type of transaction
+          - name: CustomerID
+            description: Customer for this transaction (if applicable)
+          - name: InvoiceID
+            description: ID of an invoice (for transactions associated with an invoice)
+          - name: SupplierID
+            description: Supplier for this stock transaction (if applicable)
+          - name: PurchaseOrderID
+            description: ID of an purchase order (for transactions associated with a purchase order)
+          - name: TransactionOccurredWhen
+            description: Date and time when the transaction occurred
+          - name: Quantity
+            description: Quantity of stock movement (positive is incoming stock, negative is outgoing)
+        loaded_at_field: _airbyte_normalized_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}

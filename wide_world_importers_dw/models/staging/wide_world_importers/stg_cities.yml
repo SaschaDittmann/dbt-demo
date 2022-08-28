@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: stg_cities
+    description: Staged cities data from our wide world importers app.
+    columns: 
+      - name: city_id
+        description: Numeric ID used for reference to a city within the database
+        tests:
+          - not_null
+      - name: city_name
+        description: Formal name of the city
+        tests:
+          - not_null
+      - name: state_province_id
+        description: State or province for this city
+        tests:
+          - not_null
+      - name: latest_recorded_population
+        description: Latest available population for the City
