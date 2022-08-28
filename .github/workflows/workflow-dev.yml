@@ -12,9 +12,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - run: |
-          pwd
-          ls ${{ github.workspace }}
   deploy:
     runs-on: ubuntu-latest
     needs: prepare
@@ -32,9 +29,4 @@ jobs:
         - ${{ github.workspace }}/dbt:/root/.dbt/
     steps:
     - name: Resolve Dependencies
-    #  run: dbt deps --target dev
-      run: |
-        pwd
-        ls /usr/app/
-        ls /root/.dbt/
-        ls /__w/dbt-demo/dbt-demo/
+      run: dbt deps --project-dir=./wide_world_importers_dw --profile-dir=./dbt --target=dev
