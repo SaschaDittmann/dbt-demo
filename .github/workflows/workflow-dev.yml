@@ -35,5 +35,6 @@ jobs:
     #  run: dbt deps --target dev
       run: |
         pwd
-        ls /usr/app
+        ls /usr/app/
         ls /root/.dbt/
+        ls /__w/dbt-demo/dbt-demo/
