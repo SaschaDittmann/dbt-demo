@@ -23,4 +23,4 @@ jobs:
         - /github/workspace/dbt:/root/.dbt/
     steps:
     - name: Resolve Dependencies
-      run: dbt deps
+      run: dbt deps --project-dir /usr/app --profiles-dir /root/.dbt/ --target dev
