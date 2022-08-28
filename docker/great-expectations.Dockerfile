@@ -36,7 +36,11 @@ RUN apt-get update \
     /tmp/* \
     /var/tmp/*
 
-RUN python3 -m pip install --no-cache great_expectations sqlalchemy sqlalchemy-bigquery pyodbc
+RUN python3 -m pip install --no-cache great_expectations \
+      sqlalchemy-bigquery pybigquery \
+      sqlalchemy pyodbc \
+      snowflake-sqlalchemy \
+      pymysql psycopg2-binary
 
 WORKDIR /usr/app/great_expectations/
 VOLUME /usr/app
