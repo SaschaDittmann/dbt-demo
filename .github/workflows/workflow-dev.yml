@@ -29,4 +29,4 @@ jobs:
         - ${{ github.workspace }}/dbt:/root/.dbt/
     steps:
     - name: Resolve Dependencies
-      run: dbt deps --project-dir=./wide_world_importers_dw --profile-dir=./dbt --target=dev
+      run: dbt deps --project-dir=./wide_world_importers_dw --profiles-dir=./dbt --target=dev
