@@ -25,11 +25,12 @@ jobs:
         DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_ID: ${{ secrets.DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_ID }}
         DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_X509_CERT_URL: ${{ secrets.DBT_ENV_SECRET_DEV_KEYFILE_CLIENT_X509_CERT_URL }}
       volumes:
-        - ${{ github.workspace }}/wide_world_importers_dw:/usr/app
-        - ${{ github.workspace }}/dbt:/root/.dbt/
+        - $GITHUB_WORKSPACE/wide_world_importers_dw:/usr/app
+        - $GITHUB_WORKSPACE/dbt:/root/.dbt/
     steps:
     - name: Resolve Dependencies
     #  run: dbt deps --target dev
       run: |
+        pwd
         ls /usr/app
         ls /root/.dbt/
