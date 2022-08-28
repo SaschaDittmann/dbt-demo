@@ -38,3 +38,10 @@ jobs:
         run: dbt run --project-dir=$DBT_PROJECT_DIR --profiles-dir=./dbt --target=$DBT_TARGET
       - name: Run Tests
         run: dbt test --exclude source:* --project-dir=$DBT_PROJECT_DIR --profiles-dir=./dbt --target=$DBT_TARGET
+      - name: Generate Docs
+        run: dbt docs generate --project-dir=$DBT_PROJECT_DIR --profiles-dir=./dbt --target=$DBT_TARGET
+      - name: Upload Artifacts (Docs)
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: wide_world_importers_dw/target
