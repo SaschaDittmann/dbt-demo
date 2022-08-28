@@ -55,6 +55,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Initialize Great Expectations
+        run: |
+          mkdir -p great_expectations/uncommitted/data_docs
+          mkdir -p great_expectations/uncommitted/validations
+          echo "instance_id: b47db2a7-e628-4a5d-a48d-8b167467fddc" > great_expectations/uncommitted/config_variables.yml
       - name: Run Checkpoint
         run: great_expectations checkpoint run wide_world_importers_dw_checkpoint
       - name: Upload Artifacts
