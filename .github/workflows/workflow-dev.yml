@@ -45,25 +45,25 @@ jobs:
         with:
           name: docs
           path: wide_world_importers_dw/target
-  #test:
-  #  runs-on: ubuntu-latest
-  #  needs: transform
-  #  container: 
-  #    image: bytesmith/great-expectations:latest
-  #    env:
-  #      bigquery_connection_string: ${{ secrets.GE_BIGQUERY_CONNECTION_STRING }}
-  #  steps:
-  #    - name: Checkout
-  #      uses: actions/checkout@v3
-  #    - name: Initialize Great Expectations
-  #      run: |
-  #        mkdir -p great_expectations/uncommitted/data_docs
-  #        mkdir -p great_expectations/uncommitted/validations
-  #        echo "instance_id: b47db2a7-e628-4a5d-a48d-8b167467fddc" > great_expectations/uncommitted/config_variables.yml
-  #    - name: Run Checkpoint
-  #      run: great_expectations checkpoint run wide_world_importers_dw_checkpoint
-  #    - name: Upload Artifacts
-  #      uses: actions/upload-artifact@v3
-  #      with:
-  #        name: ge
-  #        path: great_expectations/uncommitted
+  test:
+    runs-on: ubuntu-latest
+    needs: transform
+    container: 
+      image: bytesmith/great-expectations:latest
+      env:
+        bigquery_connection_string: ${{ secrets.GE_BIGQUERY_CONNECTION_STRING }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Initialize Great Expectations
+        run: |
+          mkdir -p great_expectations/uncommitted/data_docs
+          mkdir -p great_expectations/uncommitted/validations
+          echo "instance_id: b47db2a7-e628-4a5d-a48d-8b167467fddc" > great_expectations/uncommitted/config_variables.yml
+      - name: Run Checkpoint
+        run: echo # great_expectations checkpoint run wide_world_importers_dw_checkpoint
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ge
+          path: great_expectations/uncommitted
